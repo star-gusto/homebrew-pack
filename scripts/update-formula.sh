@@ -62,7 +62,7 @@ BRANCH="update-${FORMULA}-${VERSION}"
 git checkout -b "$BRANCH"
 
 # Replace version and all URLs/checksums in one sed pass
-sed -i'' \
+sed -i '' \
   -e "s|version \"${CURRENT_VERSION}\"|version \"${VERSION}\"|g" \
   -e "s|/v${CURRENT_VERSION}/${FORMULA}_${CURRENT_VERSION}_Darwin_arm64.tar.gz|/v${VERSION}/${FORMULA}_${VERSION}_Darwin_arm64.tar.gz|g" \
   -e "s|/v${CURRENT_VERSION}/${FORMULA}_${CURRENT_VERSION}_Darwin_x86_64.tar.gz|/v${VERSION}/${FORMULA}_${VERSION}_Darwin_x86_64.tar.gz|g" \
