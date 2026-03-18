@@ -41,7 +41,8 @@ CHECKSUMS=$(gh release download "v${VERSION}" --repo "$REPO" --pattern '*checksu
 
 get_sha() {
   local filename="$1"
-  echo "$CHECKSUMS" | grep "$filename" | awk '{print $1}'
+  # use awk exact match to avoid matching .sbom.json variants
+  echo "$CHECKSUMS" | awk -v f="$filename" '$2 == f {print $1}'
 }
 
 DARWIN_ARM64=$(get_sha "${FORMULA}_${VERSION}_Darwin_arm64.tar.gz")
@@ -91,7 +92,8 @@ def replace_sha(match):
     platform = match.group(1)
     return f'sha256 "{sha_map[platform]}"'
 
-pattern = r'url "[^"]*_(Darwin_arm64|Darwin_x86_64|Linux_arm64|Linux_x86_64)\.tar\.gz"\n(\s+)sha256 "[a-f0-9]+"'
+# match sha256 values that may span multiple lines (e.g. from a previous buggy run)
+pattern = r'url "[^"]*_(Darwin_arm64|Darwin_x86_64|Linux_arm64|Linux_x86_64)\.tar\.gz"\n(\s+)sha256 "[a-f0-9\n]+"'
 
 def replacer(m):
     platform = m.group(1)
