@@ -34,6 +34,6 @@ class Pup < Formula
   end
 
   test do
-    assert_match "Datadog APIs", shell_output("#{bin}/pup --help")
+    assert_match "Datadog API CLI", shell_output("#{bin}/pup --help")
   end
 end
